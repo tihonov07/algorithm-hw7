@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static java.util.Arrays.asList;
 import static org.example.Action.destroy;
@@ -28,7 +29,9 @@ class HomeWorkTest {
 
     @Test
     void checkSecond(){
-        assertEquals(asList("3 1 5 2 4".split(" ")), homeWork.getLeaveOrder(5, 3));
+        assertEquals(IntStream.of(3, 1, 5, 2, 4).boxed().collect(Collectors.toList()),
+                homeWork.getLeaveOrder(5, 3)
+        );
     }
 
 

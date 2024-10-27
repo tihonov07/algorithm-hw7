@@ -1,7 +1,9 @@
 package org.example;
 
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 public class HomeWork {
 
@@ -11,7 +13,20 @@ public class HomeWork {
      * <a href="https://acm.timus.ru/problem.aspx?space=1&num=1439">https://acm.timus.ru/problem.aspx?space=1&num=1439</a>
      */
     public List<Integer> getOriginalDoorNumbers(int maxDoors, List<Action> actionList) {
-        return null;
+        var destroyedRooms = new TreeMap<Integer, Integer>();
+        var output = new ArrayList<Integer>();
+
+        for (var action : actionList) {
+            var roomNumber = action.getDoorNumber();
+            if (action.isLook()) {
+                var destroyedMap = destroyedRooms.headMap(roomNumber, true);
+                var shift = destroyedMap.getOrDefault(roomNumber, 0);
+                output.add(roomNumber + shift);
+            } else {
+                destroyedRooms.merge(roomNumber, 1, (k, v) -> v + 1);
+            }
+        }
+        return output;
     }
 
     /**
@@ -28,7 +43,22 @@ public class HomeWork {
      * _ <b>4</b> => 4
      */
     public List<Integer> getLeaveOrder(int maxUnits, int leaveInterval) {
-        return null;
+        var result = new ArrayList<Integer>();
+        var units = new ArrayList<Integer>();
+        for (int i = 1; i <= maxUnits; i++) {
+            units.add(i);
+        }
+        int index = (leaveInterval - 1) % maxUnits;
+        while (!units.isEmpty()) {
+            result.add(units.get(index));
+
+            units.remove(index);
+
+            if (!units.isEmpty()) {
+                index = (index + leaveInterval - 1) % units.size();
+            }
+        }
+        return result;
     }
 
 }
